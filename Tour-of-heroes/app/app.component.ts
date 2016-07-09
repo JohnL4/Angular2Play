@@ -12,10 +12,9 @@ import { HeroesComponent } from './heroes.component';
   <a [routerLink]="['/heroes']">Heroes</a>
   <router-outlet></router-outlet>
 `,
-   directives: [HeroesComponent /*, RouterLink, RouterOutlet */],
+   directives: [HeroesComponent, ROUTER_DIRECTIVES /*, RouterLink, RouterOutlet */],
    providers: [
       HeroService,
-      ROUTER_DIRECTIVES
    ]
 })
 export class AppComponent {
