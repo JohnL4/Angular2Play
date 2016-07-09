@@ -87,7 +87,7 @@ export class HeroesComponent implements OnInit
 
    getHeroes() {
       // this.heroes = this.heroService.getHeroes(); // (no promise)
-      this.heroService.getHeroesSlowly().then( heroes => this.heroes = heroes);
+      this.heroService.getHeroes().then( heroes => this.heroes = heroes);
    }
 
    ngOnInit() {
