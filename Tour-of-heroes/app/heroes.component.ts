@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
+import { HeroDetailComponent } from './hero-detail.component';
 
 @Component({
   selector: 'my-heroes',
+   templateUrl: 'app/heroes.component.html',
    styleUrls: ['app/heroes.component.css'],
-   templateUrl: 'app/heroes.component.html'
+   directives: [HeroDetailComponent],
 })
 export class HeroesComponent implements OnInit
 {
@@ -17,6 +19,10 @@ export class HeroesComponent implements OnInit
 
    heroes: Hero[];
 
+   addingHero: boolean = false;
+   
+   error: any;
+   
    constructor(
       private router: Router,
       private heroService: HeroService) { }
@@ -27,6 +33,31 @@ export class HeroesComponent implements OnInit
 
    ngOnInit() {
       this.getHeroes();
+   }
+
+   addHero() {
+      this.addingHero = true;
+      this.selectedHero = null;
+   }
+
+   close( savedHero: Hero) {
+      this.addingHero = false;
+      if (savedHero) {
+         this.getHeroes();
+      }
+   }
+
+   deleteHero( hero: Hero, event: any) {
+      event.stopPropagation(); // TODO: find out why we need this.
+      this.heroService
+         .delete( hero)
+         .then( res => {
+            this.heroes = this.heroes.filter( h => h !== hero);
+            if (this.selectedHero === hero) {
+               this.selectedHero = null;
+            }
+         })
+         .catch( error => this.error = error);
    }
    
    onSelect( hero: Hero) { this.selectedHero = hero; }
